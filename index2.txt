@@ -1,0 +1,5 @@
+testing file
+'summary': 'Print multiple Purchase Orders as separate PDF',
+'category': 'Purchases',
+'depends': ['base','purchase']
+'testing' :['innovative addons']
