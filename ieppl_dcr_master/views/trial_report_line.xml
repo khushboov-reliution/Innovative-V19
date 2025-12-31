@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="trial_report_line_view_form" model="ir.ui.view">
+        <field name="name">trial.report.line.view.form</field>
+        <field name="model">trial.report.line</field>
+        <field name="arch" type="xml">
+            <form string="Trial_report_line">
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                        <field name="concentration"/>
+                        <field name="water_ph"/>
+                        <field name="ph"/>
+                        <field name="oil_top_up"/>
+                        <field name="water_top_up"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="trial_report_line_view_list" model="ir.ui.view">
+        <field name="name">trial.report.line.view.list</field>
+        <field name="model">trial.report.line</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="date"/>
+                <field name="concentration"/>
+                <field name="water_ph"/>
+                <field name="ph"/>
+                <field name="oil_top_up"/>
+                <field name="water_top_up"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Sandvik Form View -->
+    <record id="view_trial_report_line_sandvik_brand_form" model="ir.ui.view">
+        <field name="name">trial.report.line.form</field>
+        <field name="model">trial.report.line</field>
+        <field name="arch" type="xml">
+            <form string="Test Report">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="contact_person"/>
+                            <field name="remarks"/>
+                        </group>
+                    </group>
+                    <separator string="Tool Details" colspan="2"/>
+                    <group>
+                        <group>
+                            <field name="tool_manufacturer_id" context="{'default_metal_cutting_manf': True}"/>
+                            <field name="tool_code"/>
+                            <field name="inserts_in_tool"/>
+                            <field name="tool_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="entering_angle"/>
+                            <label for="insert_indexing_time"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="insert_indexing_time"/>
+                                <span>min</span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="insert_manufacturer_id" context="{'default_metal_cutting_manf': True}"/>
+                            <field name="insert_code"/>
+                            <field name="geometry_grade"/>
+                            <field name="edges_per_insert"/>
+                            <field name="cost_per_insert" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </group>
+                    <separator string="Cutting Details" colspan="2"/>
+                    <group>
+                        <group>
+                            <label for="cutting_cutter_diameter"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="cutting_cutter_diameter"/>
+                                <span>mm</span>
+                            </div>
+                            <label for="cutting_speed_vc"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="cutting_speed_vc"/>
+                                <span>m/min</span>
+                            </div>
+                            <field class="mw-50" name="spindle_speed_rpm"/>
+                            <label for="feed_per_tooth_fz"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="feed_per_tooth_fz"/>
+                                <span>mm</span>
+                            </div>
+                            <label for="feed_vf"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="feed_vf"/>
+                                <span>mm/min</span>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="cutting_depth_ap"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="cutting_depth_ap"/>
+                                <span>mm</span>
+                            </div>
+                            <label for="working_engage_ae"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="working_engage_ae"/>
+                                <span>mm</span>
+                            </div>
+                            <label for="length_of_cut"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="length_of_cut"/>
+                                <span>mm</span>
+                            </div>
+                            <field name="number_of_passes"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <label for="time_in_cut_operation"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="time_in_cut_operation"/>
+                                <span>min</span>
+                            </div>
+                            <label for="total_cycle_time"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="total_cycle_time"/>
+                                <span>min</span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="tool_life"/>
+                            <field name="criteria_for_tool_change"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="trial_report_line_action" model="ir.actions.act_window">
+        <field name="name">Trial report line</field>
+        <field name="res_model">trial.report.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first trial report line!
+            </p>
+        </field>
+    </record>
+
+</odoo>

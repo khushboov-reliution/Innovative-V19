@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Operation Master Records -->
+        <record id="op_hobbing" model="operation.master">
+            <field name="name">Hobbing</field>
+        </record>
+
+        <record id="op_gear_shaping" model="operation.master">
+            <field name="name">Gear Shaping</field>
+        </record>
+
+        <record id="op_gear_shaving" model="operation.master">
+            <field name="name">Gear Shaving</field>
+        </record>
+
+        <record id="op_milling" model="operation.master">
+            <field name="name">Milling</field>
+        </record>
+
+        <record id="op_thread_rolling" model="operation.master">
+            <field name="name">Thread Rolling</field>
+        </record>
+
+        <record id="op_broaching" model="operation.master">
+            <field name="name">Broaching</field>
+        </record>
+
+        <record id="op_grinding" model="operation.master">
+            <field name="name">Grinding</field>
+        </record>
+
+        <record id="op_deep_hole_drilling" model="operation.master">
+            <field name="name">Deep Hole Drilling</field>
+        </record>
+
+        <record id="op_honing" model="operation.master">
+            <field name="name">Honing</field>
+        </record>
+
+        <record id="op_lapping" model="operation.master">
+            <field name="name">Lapping</field>
+        </record>
+
+        <record id="op_turning" model="operation.master">
+            <field name="name">Turning</field>
+        </record>
+
+        <record id="op_drilling" model="operation.master">
+            <field name="name">Drilling</field>
+        </record>
+
+        <record id="op_boring" model="operation.master">
+            <field name="name">Boring</field>
+        </record>
+
+        <record id="op_tapping" model="operation.master">
+            <field name="name">Tapping</field>
+        </record>
+
+        <record id="op_reaming" model="operation.master">
+            <field name="name">Reaming</field>
+        </record>
+
+        <record id="op_cleaning" model="operation.master">
+            <field name="name">Cleaning</field>
+        </record>
+
+        <record id="op_drying" model="operation.master">
+            <field name="name">Drying</field>
+        </record>
+
+        <record id="op_heating" model="operation.master">
+            <field name="name">Heating</field>
+        </record>
+
+        <record id="op_dewatering" model="operation.master">
+            <field name="name">Dewatering</field>
+        </record>
+
+    </data>
+</odoo>

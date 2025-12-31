@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="paperformat_loctite_test_report" model="report.paperformat">
+        <field name="name">Loctite Test Report Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">18</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <template id="report_trial_loctite">
+        <t t-set="company" t-value="env.company"/>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+<!--                <t t-call="web.basic_layout">-->
+                    <div class="page">
+
+                        <!-- Title -->
+                        <h5 style="text-decoration: underline; margin-bottom:10px;">
+                            Test Report:
+                        </h5>
+
+                        <!-- Attached Trial Report No -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 6px;">
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Attached Trial Report No:</b>
+                                    <span t-esc="o.name"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Testing Supervision -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 6px;">
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Testing under supervision of:</b>
+                                    <span t-esc="o.testing_supervision"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Date & Time -->
+                        <!-- Criteria Table -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom:10px;">
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Date &amp; time of testing:</b>
+                                    <span><t t-esc="o.testing_datetime" t-options='{"widget": "datetime", "format": "short"}' /></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table class="table py-0 table-borderless">
+                                        <tbody style="text-align: left;">
+                                            <tr>
+                                                <td style="padding:10px;">
+                                                    <strong>Criteria:</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:50px; width:33%;">
+                                                    <b>Strength:</b>
+                                                    <t t-if="o.strength">
+                                                        <span t-esc="o.strength"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>
+                                                            _______________________________________________________________________________________________________________
+                                                        </span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:50px; width:33%;">
+                                                    <b>Pressure:</b>
+                                                    <t t-if="o.pressure">
+                                                        <span t-esc="o.pressure"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>
+                                                            _______________________________________________________________________________________________________________
+                                                        </span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:50px; width:33%;">
+                                                    <b>Temperature:</b>
+                                                    <t t-if="o.temperature">
+                                                        <span t-esc="o.temperature"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>
+                                                            __________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- Test Procedure -->
+                                    <table class="table py-0 table-borderless">
+                                        <tbody style="text-align: left;">
+                                            <tr>
+                                                <td style="padding:10px;">
+                                                    <strong>Test Procedure:</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:50px; width:33%;">
+                                                    <t t-if="o.test_procedure">
+                                                        <span t-esc="o.test_procedure"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- Results -->
+                            <tr>
+                                <td>
+                                    <table class="table py-0 table-borderless">
+                                        <tbody style="text-align: left;">
+                                            <tr>
+                                                <td style="padding:10px;">
+                                                    <strong>Results:</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:50px; width:33%;">
+                                                    <t t-if="o.result">
+                                                        <span t-esc="o.result"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- Remarks -->
+                            <tr>
+                                <td>
+                                    <table class="table py-0 table-borderless">
+                                        <tbody style="text-align: left;">
+                                            <tr>
+                                                <td style="padding:10px;">
+                                                    <strong>Remarks, if any:</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:50px; width:33%;">
+                                                    <t t-if="o.remarks">
+                                                        <span t-esc="o.remarks"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                        <span>
+                                                            __________________________________________________________________________________________________________________________
+                                                        </span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Signatures -->
+                        <table style="width: 100%; border-collapse: collapse; margin-top:10px;">
+                            <tr>
+                                <td style="text-decoration: underline; padding:10px; width:50%; vertical-align:bottom;">
+                                    <b>Signatures:</b>
+                                </td>
+
+                                <td style="text-decoration: underline; padding:10px; width:50%; vertical-align:bottom;">
+                                    <b>Signatures:</b>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <record id="action_report_trial_loctite" model="ir.actions.report">
+        <field name="name">Loctite Test Report</field>
+        <field name="model">trial.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ieppl_dcr_master.report_trial_loctite</field>
+        <field name="report_file">ieppl_dcr_master.report_trial_loctite</field>
+        <field name="print_report_name">'Loctite - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="ieppl_dcr_master.model_trial_report"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="ieppl_dcr_master.paperformat_loctite_test_report"/>
+    </record>
+</odoo>

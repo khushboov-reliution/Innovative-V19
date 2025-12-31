@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_product_application_list" model="ir.ui.view">
+        <field name="name">product.application.list</field>
+        <field name="model">product.application</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="product_brand_id"/>
+                <field name="product_category_id"/>
+<!--                <field name="create_date"/>-->
+            </list>
+        </field>
+    </record>
+
+    <record id="view_product_application_form" model="ir.ui.view">
+        <field name="name">product.application.form</field>
+        <field name="model">product.application</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <separator string="Pain Point Details" colspan="2"/>
+                        <group>
+                            <field name="pain_point_category_id" string="Category"/>
+                        </group>
+                        <group>
+                            <field name="pain_point_id"
+                                   domain="[('category_id','=',pain_point_category_id)]"
+                                   string="Point"
+                                   invisible="not pain_point_category_id"/>
+                        </group>
+
+                        <separator string="Material Details" colspan="2"/>
+                        <group>
+                            <field name="material_category_ids" widget="many2many_tags"
+                                   string="Category"/>
+                            <field name="allowed_material_category_ids" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="material_ids" widget="many2many_tags"
+                                   domain="[('category_id', 'in', material_category_ids)]"
+                                   string="Material"/>
+                        </group>
+
+                        <field name="product_brand_id" invisible="1"
+                               domain="[('id', 'child_of', user_brand_ids)]"/>
+
+                        <separator string="Solution Details" colspan="2"/>
+                            <field name="solution_product_ids" widget="one2many" context="{'default_product_brand_id':product_brand_id}">
+                            <list>
+                                <field name="product_id"/>
+                                <field name="solution_product_quantity"/>
+                                <field name="frequency"/>
+                                <field name="solution_product_uom"/>
+                                <field name="currency_id" column_invisible="1"/>
+                                <field name="solution_product_price" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="solution_proposed"/>
+                            </list>
+                        </field>
+
+                        <separator string="Competition Details" colspan="2"/>
+                        <group>
+                            <field name="competition"/>
+                        </group>
+                        <field name="competition_ids" invisible='not competition' widget="one2many" mode="list">
+                            <list>
+                                <field name="competitor_product_id"/>
+                                <field name="product_category_id"/>
+                                <field name="product_quantity"/>
+                                <field name="frequency"/>
+                                <field name="tentative_price"
+                                       widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="tentative_price" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="other_details"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+<!--                replace sheet to avoid isuue arise during normal application from duplicate -->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="product_brand_id" string="Brand"/>-->
+<!--                        <field name="product_category_id"/>-->
+<!--                        <field name="pain_point_id"/>-->
+<!--&lt;!&ndash;                        <field name="create_date"/>&ndash;&gt;-->
+<!--                        <field name="material_ids" widget="many2many_tags"/>-->
+<!--                        <field name="active" invisible="1"/>-->
+<!--                    </group>-->
+<!--                </sheet>-->
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_application_fuchs_brand_form" model="ir.ui.view">
+        <field name="name">product.application.form</field>
+        <field name="model">product.application</field>
+        <field name="arch" type="xml">
+            <form string="Application">
+                <sheet>
+                    <field name="fuchs_product_type" invisible="1"/>
+                    <field name="product_brand_id" invisible="1"/>
+                    <group invisible="fuchs_product_type == 'rust_preventive'">
+                        <separator string="Machine Details" colspan="2"/>
+                        <group>
+                            <field name="machine_model_id"/>
+                        </group>
+                        <group>
+                            <field name="machine_make_id"/>
+                        </group>
+                        <group>
+                            <field name="machine_id_code"/>
+                        </group>
+                        <group>
+                            <field name="operation_id"/>
+                        </group>
+
+                        <group>
+                            <label for="sump_capacity" string="Sump Capacity"/>
+                            <div class="o_row mw-50">
+                                <field class="mw-50" name="sump_capacity"/>
+                                <span class="mw-25">liters</span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="stand_type"/>
+                        </group>
+                    </group>
+
+                    <separator string="Material Details" colspan="2"/>
+                    <group>
+                        <group>
+                            <field name="material_category_ids" widget="many2many_tags" string="Material Category"/>
+                            <field name="allowed_material_category_ids" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="material_ids" widget="many2many_tags"
+                                   domain="[('category_id', 'in', material_category_ids)]" string="Material"/>
+                        </group>
+                        <group>
+                            <field name="component_name"/>
+                        </group>
+                        <group>
+                            <field name="component_no"/>
+                        </group>
+                    </group>
+                    <group string="Rust Preventive Details" invisible="fuchs_product_type != 'rust_preventive'">
+                        <group>
+                            <!-- Surface -->
+                            <field name="surface_id"/>
+                            <!-- Packaging -->
+                            <field name="rp_packaging"/>
+                            <!-- Transport -->
+                            <field name="rp_transport"/>
+                            <!-- Storage Conditions -->
+                            <field name="rp_storage"/>
+                        </group>
+                        <group>
+                            <!-- Protection Duration -->
+                            <field name="rp_protection_time"/>
+                            <!-- Coating -->
+                            <field name="rp_coating"/>
+                            <!-- Characteristics -->
+                            <field name="rp_characteristics"/>
+                            <!-- Application Method -->
+                            <field name="rp_application_method"/>
+                        </group>
+                    </group>
+                    <group/>
+                    <group invisible="fuchs_product_type != 'water_soluble'">
+                        <group>
+                            <field name="filtration"/>
+                            <field name="filtration_other" invisible="filtration != 'other'"/>
+                        </group>
+                        <group>
+                            <field name="skimmer"/>
+                        </group>
+                    </group>
+                    <group invisible="fuchs_product_type != 'water_soluble'">
+                        <separator string="Water Details" colspan="2"/>
+                        <group>
+                            <field name="water_source"/>
+                            <field name="water_source_other" invisible="water_source != 'others'"/>
+                        </group>
+                        <group>
+                            <field name="hardness_analysed"/>
+                            <field name="total_hardness" invisible="hardness_analysed == False"/>
+                            <field name="chloride" invisible="hardness_analysed == False"/>
+                            <field name="ph_value" invisible="hardness_analysed == False"/>
+                        </group>
+                    </group>
+                    <group string="Process &amp; Photos" invisible="fuchs_product_type != 'rust_preventive'">
+                        <group>
+                            <field name="rp_process_before_ids" widget="many2many_tags"/>
+                            <field name="photos_before_ids" widget="many2many_binary"
+                                   options="{'image_size': (128, 128)}"/>
+                        </group>
+                        <group>
+                            <field name="rp_process_after_ids" widget="many2many_tags"/>
+                            <field name="photos_after_ids" widget="many2many_binary"
+                                   options="{'image_size': (128, 128)}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group invisible="fuchs_product_type != 'rust_preventive'">
+                            <field name="end_user_approval"/>
+                        </group>
+                        <group>
+                            <field name="end_user_name" invisible="not end_user_approval"/>
+                        </group>
+                    </group>
+                    <separator string="Competition Details" colspan="2"/>
+                    <group>
+                        <field name="competition"/>
+                    </group>
+                    <!-- competition section for neat oil and water-soluble-->
+                    <field name="competition_ids" invisible="not competition or fuchs_product_type == 'rust_preventive'" widget="one2many" mode="list">
+                        <list>
+                            <field name="competitor_product_id"/>
+                            <field name="product_category_id"/>
+                            <field name="product_quantity"/>
+                            <field name="frequency"/>
+                            <field name="tentative_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="concentration"/>
+                            <field name="top_up"/>
+                            <field name="top_up_frequency"/>
+                            <field name="sump_life" class="mw-25"/>
+                            <field name="sump_life_unit" class="mw-25"/>
+                            <field name="tool_life"/>
+                            <field name="other_details"/>
+                            <field name="currency_id" column_invisible="1"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="own_brand_id"/>
+                                        <field name="own_product_id"/>
+                                        <field name="competitor_product_id"/>
+                                        <field name="brand_id"/>
+                                        <field name="grade_id"/>
+                                        <field name="frequency"/>
+                                        <field name="product_category_id"/>
+                                        <field name="tentative_price"/>
+                                        <field name="concentration"/>
+                                    </group>
+                                    <group>
+                                        <field name="top_up"/>
+                                        <field name="top_up_frequency"/>
+                                        <field name="sump_life"/>
+                                        <field name="sump_life_unit"/>
+                                        <field name="tool_life"/>
+                                        <field name="other_details"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                    <field name="competition_ids" invisible="not competition or fuchs_product_type != 'rust_preventive'" widget="one2many" mode="list">
+                        <list>
+                            <field name="competitor_product_id"/>
+                            <field name="product_category_id"/>
+                            <field name="product_quantity"/>
+                            <field name="frequency"/>
+                            <field name="tentative_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="top_up"/>
+                            <field name="top_up_frequency"/>
+                            <field name="sump_life" class="mw-25"/>
+                            <field name="sump_life_unit" class="mw-25"/>
+                            <field name="tool_life"/>
+                            <field name="other_details"/>
+                            <field name="currency_id" column_invisible="1"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="own_brand_id"/>
+                                        <field name="own_product_id"/>
+                                        <field name="competitor_product_id"/>
+                                        <field name="brand_id"/>
+                                        <field name="grade_id"/>
+                                        <field name="frequency"/>
+                                        <field name="product_category_id"/>
+                                        <field name="tentative_price"/>
+                                    </group>
+                                    <group>
+                                        <field name="top_up"/>
+                                        <field name="top_up_frequency"/>
+                                        <field name="sump_life"/>
+                                        <field name="sump_life_unit"/>
+                                        <field name="tool_life"/>
+                                        <field name="other_details"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                    <separator string="Solution Details" colspan="2"/>
+                    <field name="solution_product_ids" widget="one2many" context="{'default_product_brand_id':product_brand_id}">
+                            <list>
+                                <field name="product_id"/>
+                                <field name="solution_product_quantity"/>
+                                <field name="frequency"/>
+                                <field name="solution_product_uom"/>
+                                <field name="currency_id" column_invisible="1"/>
+                                <field name="solution_product_price" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="solution_proposed"/>
+                            </list>
+                        </field>
+
+                    <separator string="Pain Points &amp; Observations" colspan="2"/>
+                    <group>
+                        <!-- Corrosion -->
+                        <group>
+                            <label for="corrosion" string="Corrosion"/>
+                            <div class="o_row">
+                                <field name="corrosion" class="mw-25"/>
+                                <span invisible="not corrosion">After :</span>
+                                <field name="corrosion_after_days" class="mw-25" invisible="not corrosion"/>
+                                <span invisible="not corrosion">Days</span>
+                            </div>
+                        </group>
+
+                        <!-- Misting -->
+                        <group invisible="fuchs_product_type == 'rust_preventive'">
+                            <label for="misting" string="Misting"/>
+                            <div class="o_row">
+                                <field name="misting" class="mw-25"/>
+                                <span invisible="not misting">After :</span>
+                                <field name="misting_after_days" class="mw-25" invisible="not misting"/>
+                                <span invisible="not misting">Days</span>
+                            </div>
+                        </group>
+                        <!-- Over Heating -->
+                        <group invisible="fuchs_product_type != 'neat_oil'">
+                            <label for="over_heating" string="Over Heating"/>
+                            <div class="o_row">
+                                <field name="over_heating" class="mw-25"/>
+                                <span class="mw-25 fw-bold" invisible="not over_heating">Severity :</span>
+                                <field name="severity" class="mw-25"
+                                       invisible="not over_heating"/>
+                            </div>
+                        </group>
+                        <group invisible="fuchs_product_type != 'water_soluble'">
+                            <label for="foul_smell" string="Foul Smell"/>
+                            <div class="o_row">
+                                <field name="foul_smell" class="mw-25"/>
+                                <span invisible="not foul_smell">After :</span>
+                                <field name="foul_smell_after_days" class="mw-25" invisible="not foul_smell"/>
+                                <span invisible="not foul_smell">Days</span>
+                            </div>
+                        </group>
+                        <group invisible="fuchs_product_type != 'water_soluble'">
+                            <label for="foaming" string="Foaming"/>
+                            <div class="o_row">
+                                <field name="foaming" class="mw-25"/>
+                                <span invisible="not foaming">After :</span>
+                                <field name="foaming_after_days" class="mw-25" invisible="not foaming"/>
+                                <span invisible="not foaming">Days</span>
+                            </div>
+                        </group>
+                        <group invisible="fuchs_product_type == 'rust_preventive'">
+                            <label for="pressure" string="Pressure"/>
+                            <div class="o_row mw-75">
+                                <field name="pressure"/>
+                                <field name="over_heating_pressure" class="mw-50"/>
+                            </div>
+                        </group>
+                        <!-- Skin Irritation -->
+                        <group>
+                            <label for="skin_irritation"/>
+                            <div class="o_row">
+                                <field name="skin_irritation" class="mw-25"/>
+                                <span class="mw-25 fw-bold" invisible="not skin_irritation">Severity :</span>
+                                <field name="skin_irritation_severity" class="mw-25"
+                                       invisible="not skin_irritation"/>
+                            </div>
+                        </group>
+                    </group>
+                    <separator string="Performance observations"/>
+                    <group>
+                        <group>
+                            <field name="performance_sump_life"/>
+                        </group>
+                        <group>
+                            <field name="performance_odour"/>
+                        </group>
+                        <group>
+                            <field name="performance_color_change"/>
+                        </group>
+                        <group>
+                            <field name="performance_run_down"/>
+                        </group>
+                        <group>
+                            <field name="performance_spotting"/>
+                        </group>
+                        <group>
+                            <field name="performance_remark"/>
+                        </group>
+                    </group>
+                    <group colspan="2">
+                        <field name="other_details"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_application_sandvik_brand_form" model="ir.ui.view">
+        <field name="name">product.application.form</field>
+        <field name="model">product.application</field>
+        <field name="arch" type="xml">
+            <form string="Application">
+                <sheet>
+                    <field name="product_brand_id" invisible="1"/>
+                    <group>
+                        <separator string="Machine Details" colspan="2"/>
+                        <group>
+                            <field name="machine_model_id" domain="machine_domain"/>
+                        </group>
+                        <group>
+                            <field name="machine_make_id"/>
+                        </group>
+                        <group>
+                            <field name="machine_id_code"/>
+                            <field name="spindle_power"/>
+                            <field name="maximum_rpm"/>
+                            <field name="tool_change_time"/>
+                        </group>
+                        <group>
+                            <field name="component_name"/>
+                            <field name="component_no"/>
+                            <field name="material_category_ids" widget="many2many_tags" string="Material Category"/>
+                            <field name="allowed_material_category_ids" invisible="1"/>
+                            <field name="material_ids" widget="many2many_tags"
+                                   domain="[('category_id', 'in', material_category_ids)]" string="Material"/>
+                        </group>
+                        <group>
+                            <field name="hardness_analysed"/>
+                        </group>
+                        <group invisible="not hardness_analysed">
+                            <label for="hardness_value" string="Hardness"/>
+                            <div class="o_row mw-50" invisible="not hardness_analysed">
+                                <field class="mw-50" name="hardness_value"/>
+                                <field class="mw-50" name="hardness_scale"/>
+                            </div>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="jobs_per_setup"/>
+                            <field name="machine_stability"/>
+                            <field name="clamping_condition"/>
+                        </group>
+                        <group>
+                            <field name="jobs_per_year"/>
+                            <field name="jobs_per_batch"/>
+                        </group>
+                        <separator string="Coolant Details"/>
+                        <group>
+                            <field name="coolant_type"/>
+                            <field name="coolant_brand_id"/>
+                            <field name="coolant_id" domain="coolant_brand_domain"/>
+                        </group>
+                        <group>
+                            <field name="coolant_grade"/>
+                            <field name="coolant_price"/>
+                            <field name="coolant_consumption"/>
+                        </group>
+                    </group>
+                    <separator string="Tool Details" colspan="2"/>
+                    <group>
+                        <group>
+                            <field name="tool_manufacturer_id" context="{'default_metal_cutting_manf': True}"/>
+                            <field name="tool_code"/>
+                            <field name="inserts_in_tool"/>
+                            <field name="tool_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="entering_angle"/>
+                            <label for="insert_indexing_time"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="insert_indexing_time"/>
+                                <span>min</span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="insert_manufacturer_id" context="{'default_metal_cutting_manf': True}"/>
+                            <field name="insert_code"/>
+                            <field name="geometry_grade"/>
+                            <field name="edges_per_insert"/>
+                            <field name="cost_per_insert" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </group>
+                    <separator string="Cutting Details" colspan="2"/>
+                    <group>
+                        <group>
+                            <label for="cutting_cutter_diameter"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="cutting_cutter_diameter"/>
+                                <span>mm</span>
+                            </div>
+                            <label for="cutting_speed_vc"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="cutting_speed_vc"/>
+                                <span>m/min</span>
+                            </div>
+                            <field class="mw-50" name="spindle_speed_rpm"/>
+                            <label for="feed_per_tooth_fz"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="feed_per_tooth_fz"/>
+                                <span>mm</span>
+                            </div>
+                            <label for="feed_vf"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="feed_vf"/>
+                                <span>mm/min</span>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="cutting_depth_ap"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="cutting_depth_ap"/>
+                                <span>mm</span>
+                            </div>
+                            <label for="working_engage_ae"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="working_engage_ae"/>
+                                <span>mm</span>
+                            </div>
+                            <label for="length_of_cut"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="length_of_cut"/>
+                                <span>mm</span>
+                            </div>
+                            <field name="number_of_passes"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <label for="time_in_cut_operation"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="time_in_cut_operation"/>
+                                <span>min</span>
+                            </div>
+                            <label for="total_cycle_time"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="total_cycle_time"/>
+                                <span>min</span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="tool_life"/>
+                            <field name="criteria_for_tool_change"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="other_details" string="Remarks"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_application_loctite_brand_form" model="ir.ui.view">
+        <field name="name">product.application.form</field>
+        <field name="model">product.application</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="product_brand_id" invisible="1"
+                               domain="[('id', 'child_of', user_brand_ids)]"/>
+                        <separator string="End Product Details" colspan="2"/>
+                        <group>
+                            <field name="end_product_id"/>
+                        </group>
+                        <group>
+                            <field name="end_product_category_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="assembly_id"/>
+                            <field name="assembly_component_id"/>
+                        </group>
+                        <group>
+                            <field name="product_category_id" string="Application Type"/>
+                            <field name="sketch_attachment_ids" widget="many2many_binary"
+                                   options="{'image_size': (128, 128)}"/>
+                        </group>
+                        <separator string="Engineering Specification" colspan="2"/>
+                        <group>
+                            <field name="material_category_ids" widget="many2many_tags"/>
+                            <field name="allowed_material_category_ids" invisible="1"/>
+                            <field name="material_ids" widget="many2many_tags"
+                                   domain="[('category_id', 'in', material_category_ids)]"
+                                   string="Material"/>
+                            <field name="dimension"/>
+                        </group>
+                        <group>
+                            <field name="gap"/>
+                            <field name="surface_id"/>
+                        </group>
+                        <separator string="Pain Point Details" colspan="2"/>
+                        <group>
+                            <field name="pain_point_category_id" string="Category"/>
+                        </group>
+                        <group>
+                            <field name="pain_point_id"
+                                   domain="[('category_id','=',pain_point_category_id)]"
+                                   string="Point"
+                                   invisible="not pain_point_category_id"/>
+                        </group>
+                        <separator string="Solution Details" colspan="2"/>
+                        <field name="solution_product_ids" widget="one2many" context="{'default_product_brand_id':product_brand_id}">
+                            <list>
+                                <field name="product_id"/>
+                                <field name="solution_product_quantity"/>
+                                <field name="frequency"/>
+                                <field name="solution_product_uom"/>
+                                <field name="currency_id" column_invisible="1"/>
+                                <field name="solution_product_price" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="solution_proposed"/>
+                            </list>
+                        </field>
+
+                        <separator string="Competition Details" colspan="2"/>
+                        <group>
+                            <field name="competition"/>
+                        </group>
+                        <field name="competition_ids" invisible='not competition' widget="one2many" mode="list">
+                            <list>
+                                <field name="competitor_product_id"/>
+                                <field name="product_category_id"/>
+                                <field name="product_quantity"/>
+                                <field name="frequency"/>
+                                <field name="tentative_price" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="other_details"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_application_loctite_brand_mro_form" model="ir.ui.view">
+        <field name="name">product.application.form</field>
+        <field name="model">product.application</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="product_brand_id" invisible="1"
+                               domain="[('id', 'child_of', user_brand_ids)]"/>
+                        <separator string="Pain Point Details" colspan="2"/>
+                        <group>
+                            <field name="pain_point_category_id" string="Category"/>
+                        </group>
+                        <group>
+                            <field name="pain_point_id"
+                                   domain="[('category_id','=',pain_point_category_id)]"
+                                   string="Point"
+                                   invisible="not pain_point_category_id"/>
+                        </group>
+                        <separator string="Corrosion/ Erosion Details" colspan="2"/>
+                        <group>
+                            <field name="total_immersion"/>
+                            <field name="intermittent_immersion"/>
+                        </group>
+                        <group>
+                             <field name="dry_condition"/>
+                            <field name="vapour_fumes_detail"/>
+                        </group>
+                        <group>
+                            <field name="current_abrasion" string="Abrasion because of"/>
+                        </group>
+                        <group>
+                            <div class="o_row">
+                                <label class="fw-bold" string="Particle size" for="current_abrasion_particle_size"/>
+                                <field name="current_abrasion_particle_size" class="mw-25"/>
+                                <label class="fw-bold" string="&amp; quantity"
+                                       for="current_abrasion_particle_quantity"/>
+                                <field name="current_abrasion_particle_quantity" class="mw-25"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="current_wear" string="Wear because of"/>
+                        </group>
+                        <group>
+                            <div class="o_row">
+                                <label class="fw-bold" string="Particle size" for="current_wear_particle_size"/>
+                                <field name="current_wear_particle_size" class="mw-25"/>
+                                <label class="fw-bold" string="&amp; quantity" for="current_wear_particle_quantity"/>
+                                <field name="current_wear_particle_quantity" class="mw-25"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="impact_detail"/>
+                        </group>
+                        <group>
+                            <label for="cavitation"/>
+                            <div class="o_row">
+                                <field name="cavitation" class="mw-25"/>
+                                <span>mm/year</span>
+                            </div>
+                        </group>
+                        <separator string="Temperature" colspan="2"/>
+                        <group>
+                            <label for="operating_temp_min" string="Operating Temperature"/>
+                            <div class="o_row">
+                                <field name="operating_temp_min" class="mw-25"/>
+                                <span>°C</span>
+                                <span>To</span>
+                                <field name="operating_temp_max" class="mw-25"/>
+                                <span>°C</span>
+                            </div>
+                        </group>
+                        <group/>
+                        <group>
+                            <label for="min_temperature"/>
+                            <div class="o_row">
+                                <field name="min_temperature" class="mw-25"/>
+                                <span>°C</span>
+                            </div>
+                            <label for="max_temperature"/>
+                            <div class="o_row">
+                                <field name="max_temperature" class="mw-25"/>
+                                <span>°C</span>
+                            </div>
+                        </group>
+                        <separator string="Application Exposed" colspan="2"/>
+                        <group>
+                            <field name="abrasion"/>
+                        </group>
+                        <group>
+                            <label for="abrasion_particle_size"/>
+                            <div class="o_row">
+                                <field class="mw-50" name="abrasion_particle_size"/>
+                                <span>mm/micron</span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="wear"/>
+                        </group>
+                        <group>
+                            <field name="wear_particle_size"/>
+                            <field name="wear_particle_quantity"/>
+                        </group>
+                        <group>
+                            <label for="pressure" string="Pressure"/>
+                            <div class="o_row mw-75">
+                                <field name="pressure"/>
+                                <field name="over_heating_pressure" class="mw-50"/>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="dry_service"/>
+                            <div class="o_row">
+                                <field name="dry_service" class="mw-25"/>
+                                <span>°C</span>
+                            </div>
+                            <label for="wet_service"/>
+                            <div class="o_row">
+                                <field name="wet_service" class="mw-25"/>
+                                <span>°C</span>
+                            </div>
+                        </group>
+                        <separator string="Details of Chemicals in contact with surface of equipment" colspan="2"/>
+                        <field name="chemical_line_ids" widget="one2many" mode="list">
+                            <list>
+                                <field name="chemical_type"/>
+                                <field name="temp_c"/>
+                                <field name="concentrate_ppm"/>
+                                <field name="ph_range"/>
+                                <field name="dissolved_solids"/>
+                            </list>
+                        </field>
+                        <separator string="Equipment history" colspan="2"/>
+                        <field name="equipment_line_ids" widget="one2many" mode="list">
+                            <list>
+                                <field name="equipment_name"/>
+                                <field name="original_coating"/>
+                                <field name="maintenance_interval"/>
+                                <field name="repair_cost"/>
+                                <field name="substrate_type"/>
+                                <field name="structurally_sound"/>
+                            </list>
+                        </field>
+                        <group>
+                            <field name="customer_expectations"/>
+                        </group>
+
+                        <separator string="Application Considerations"/>
+                        <group>
+                            <field name="surface_prep" string="Surface Preparation"/>
+                            <label for="available_downtime"/>
+                            <div class="o_row mw-75">
+                                <field name="available_downtime"/>
+                                <field name="downtime_frequency" class="mw-50"/>
+                            </div>
+                            <field name="area_accessible"/>
+                        </group>
+
+                        <separator string="Solution Details" colspan="2"/>
+                        <field name="solution_product_ids" widget="one2many" context="{'default_product_brand_id':product_brand_id}">
+                            <list>
+                                <field name="product_id"/>
+                                <field name="solution_product_quantity"/>
+                                <field name="frequency"/>
+                                <field name="solution_product_uom"/>
+                                <field name="currency_id" column_invisible="1"/>
+                                <field name="solution_product_price" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="solution_proposed"/>
+                            </list>
+                        </field>
+
+                        <separator string="Competition Details" colspan="2"/>
+                        <group>
+                            <field name="competition"/>
+                        </group>
+                        <field name="competition_ids" invisible='not competition' widget="one2many" mode="list">
+                            <list>
+                                <field name="competitor_product_id"/>
+                                <field name="product_category_id"/>
+                                <field name="product_quantity"/>
+                                <field name="frequency"/>
+                                <field name="tentative_price"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="tentative_price" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="other_details"/>
+                            </list>
+                        </field>
+                        <group colspan="2">
+                            <field name="other_details"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_application" model="ir.actions.act_window">
+        <field name="name">Product Application</field>
+        <field name="res_model">product.application</field>
+        <field name="path">product-application</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+</odoo>

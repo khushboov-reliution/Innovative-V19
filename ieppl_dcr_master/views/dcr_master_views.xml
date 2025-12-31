@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_dcr_master_form" model="ir.ui.view">
+        <field name="name">dcr.master.form</field>
+        <field name="model">dcr.master</field>
+        <field name="arch" type="xml">
+            <form string="DCR">
+                    <header>
+
+                       <button name="action_open_trial_report"
+                        string="Trial Report"
+                        type="object"
+                        class="btn-primary"
+                        invisible="not show_trial_button"/>
+
+                        <button name="action_confirm" type="object" string="Confirm"
+                                class="btn-success"
+                                invisible="state not in ('draft')"/>
+
+                        <button name="action_draft" type="object" string="Reset to Draft"
+                                class="btn-secondary"
+                                invisible="state != 'cancelled'"/>
+
+                        <button name="action_cancel" type="object" string="Cancel"
+                                class="btn-danger"
+                                invisible="state in ('draft','cancelled')"/>
+
+                        <button name="action_create_helpdesk_ticket"
+                                type="object"
+                                string="Create Helpdesk Ticket"
+                                class="btn-primary"
+                                invisible="helpdesk_count &lt; 0 or state not in 'draft' or dcr_type not in ('helpdesk_ticket')"/>
+
+
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirmed,cancelled"/>
+                    </header>
+                    <sheet>
+                                <!-- Stat Buttons -->
+                        <div class="oe_button_box" name="button_box">
+                                <button name="action_view_leads" type="object" class="oe_stat_button" icon="fa-briefcase"
+                                        invisible="lead_count == 0">
+                                    <field name="lead_count" widget="statinfo" string="Leads"/>
+                                </button>
+                                <button name="action_view_helpdesk" type="object" class="oe_stat_button" icon="fa-briefcase"
+                                        invisible="helpdesk_count == 0 or dcr_type != 'helpdesk_ticket'">
+                                    <field name="helpdesk_count" widget="statinfo" string="Helpdesk Tickets"/>
+                                </button>
+                                <button name="action_open_expenses" type="object"
+                                        class="oe_stat_button" icon="fa-file-text-o" invisible="expense_count == 0">
+                                    <div class="o_stat_info">
+                                        <field name="expense_count" class="o_stat_value"/>
+                                        <span class="o_stat_text">Expenses</span>
+                                    </div>
+                                </button>
+                            </div>
+                        <!-- Title -->
+                        <div class="oe_title">
+                            <h2>
+                                <field name="name" readonly="1"/>
+                            </h2>
+                        </div>
+                        <group col="2" name="visit_info">
+                            <group>
+                                 <field name="dcr_type" readonly="state != 'draft'"/>
+                                <field name="partner_id" readonly="state != 'draft'" widget="res_partner_many2one" context="{'show_address': 1, 'show_vat': True}"/>
+                                <field name="contact_person" readonly="state != 'draft'"
+                                       widget="many2one"
+                                       context="{'default_parent_id': partner_id,
+                                                     'partner_display_name_hide_company': True,
+                                                     'default_user_id': user_id }"/>
+                                <!--                            <field name="visit_type_id"/>-->
+                                <field name="lead_existing_id" readonly="state != 'draft'"
+                                       domain="lead_domain" invisible="dcr_type != 'lead'"/>
+                                <field name="user_ids" widget="many2many_tags"/>
+                                <field name="user_brand_id" widget="many2one" readonly="state != 'draft'"/>
+                                <field name="is_fuchs_brand" invisible="1"/>
+                                <field name="is_sandvik_brand" invisible="1"/>
+                                <field name="is_loctite_brand" invisible="1"/>
+                                <field name="fuchs_product_type" invisible="not is_fuchs_brand" required="is_fuchs_brand"/>
+                                <field name="loctite_product_type" invisible="not is_loctite_brand" required="is_loctite_brand"/>
+                            </group>
+                            <group>
+                                <field name="industry" readonly="state != 'draft'"/>
+                                <field name="date_visit"/>
+                                <field name="mode_of_engagement" readonly="state != 'draft'"/>
+                                <field name="visit_type" invisible="mode_of_engagement != 'visit'" readonly="state != 'draft'"/>
+                                <field name="call_type" invisible="mode_of_engagement != 'call'" readonly="state != 'draft'"/>
+                                <field name="lead_domain" invisible="1"/>
+                                <field name="cross_ref" readonly="state != 'draft'"/>
+                                <field name="add_expense"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <!-- ========== CUSTOMER FOLLOW UP TAB ========== -->
+                            <page name="followup" string="Follow Up" invisible="dcr_type != 'follow_up'">
+                                <group string="Follow-Up Details">
+                                    <field name="followup_purpose" required="dcr_type == 'follow_up'" readonly="state != 'draft'"/>
+                                    <field name="followup_summary" readonly="state != 'draft'"/>
+                                    <field name="next_visit_date" readonly="state != 'draft'"/>
+                                    <field name="next_visit_commitment" readonly="state != 'draft'"/>
+                                </group>
+                            </page>
+
+                            <!-- FUCHS APPLICATION FORM -->
+                            <page string="Applications" invisible="not is_fuchs_brand">
+                                <field name="application_ids" widget="one2many" mode="list,kanban" readonly="state != 'draft'"
+                                       context="{'form_view_ref': 'ieppl_dcr_master.view_product_application_fuchs_brand_form'}">
+                                    <list>
+                                        <field name="complete_name"/>
+                                        <field name="create_date"/>
+                                        <button name="btn_duplicate_application_line" type="object" string="Duplicate"
+                                                class="btn-secondary"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- SANDVIK APPLICATION FORM -->
+                            <page string="Applications" invisible="not is_sandvik_brand">
+                                <field name="application_ids" widget="one2many" mode="list,kanban" readonly="state != 'draft'"
+                                       context="{'form_view_ref': 'ieppl_dcr_master.view_product_application_sandvik_brand_form'}">
+                                    <list>
+                                        <field name="complete_name"/>
+                                        <field name="create_date"/>
+                                        <button name="btn_duplicate_application_line" type="object" string="Duplicate"
+                                                class="btn-secondary"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- LOCTITE APPLICATION FORM -->
+                            <!-- LOCTITE = PRODUCT TYPE= OEM APPLICATION FORM -->
+                            <page string="Applications" invisible="not is_loctite_brand or loctite_product_type == 'mro'">
+                                <field name="application_ids" widget="one2many" mode="list,kanban" readonly="state != 'draft'"
+                                       context="{'form_view_ref': 'ieppl_dcr_master.view_product_application_loctite_brand_form'}">
+                                    <list>
+                                        <field name="complete_name"/>
+                                        <field name="create_date"/>
+                                        <button name="btn_duplicate_application_line" type="object" string="Duplicate"
+                                                class="btn-secondary"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <!-- LOCTITE = PRODUCT TYPE= MRO APPLICATION FORM -->
+                            <page string="Applications" invisible="not is_loctite_brand or loctite_product_type != 'mro'">
+                                <field name="application_ids" widget="one2many" mode="list,kanban" readonly="state != 'draft'"
+                                       context="{'form_view_ref': 'ieppl_dcr_master.view_product_application_loctite_brand_mro_form'}">
+                                    <list>
+                                        <field name="complete_name"/>
+                                        <field name="create_date"/>
+                                        <button name="btn_duplicate_application_line" type="object" string="Duplicate"
+                                                class="btn-secondary"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- NORMAL APPLICATION FORM -->
+                            <page string="Applications" invisible="is_fuchs_brand or is_sandvik_brand or is_loctite_brand">
+                                <field name="application_ids" widget="one2many" mode="list,kanban" readonly="state != 'draft'"
+                                 context="{'form_view_ref': 'ieppl_dcr_master.view_product_application_form'}">
+                                    <list>
+                                        <field name="complete_name"/>
+                                        <field name="create_date"/>
+                                        <button name="btn_duplicate_application_line" type="object" string="Duplicate"
+                                                class="btn-secondary"/>
+                                    </list>
+                                    <form string="Application Details">
+                                        <sheet>
+                                            <group col="2">
+                                                <separator string="Pain Point Details" colspan="2"/>
+                                                <group>
+                                                    <field name="pain_point_category_id" string="Category"/>
+                                                </group>
+                                                <group>
+                                                    <field name="pain_point_id"
+                                                           domain="[('category_id','=',pain_point_category_id)]"
+                                                           string="Point"
+                                                           invisible="not pain_point_category_id"/>
+                                                </group>
+
+                                                <separator string="Material Details" colspan="2"/>
+                                                <group>
+                                                    <field name="material_category_ids" widget="many2many_tags"
+                                                           string="Category"/>
+                                                    <field name="allowed_material_category_ids" invisible="1"/>
+                                                </group>
+                                                <group>
+                                                    <field name="material_ids" widget="many2many_tags"
+                                                           domain="[('category_id', 'in', material_category_ids)]"
+                                                           string="Material"/>
+                                                </group>
+
+                                                <field name="product_brand_id" invisible="1"
+                                                       domain="[('id', 'child_of', user_brand_ids)]"/>
+
+                                                <separator string="Solution Details" colspan="2"/>
+                                                    <field name="solution_product_ids" widget="one2many" context="{'default_product_brand_id':product_brand_id}">
+                                                    <list>
+                                                        <field name="product_id"/>
+                                                        <field name="solution_product_quantity"/>
+                                                        <field name="frequency"/>
+                                                        <field name="solution_product_uom"/>
+                                                        <field name="currency_id" column_invisible="1"/>
+                                                        <field name="solution_product_price" widget="monetary"
+                                                               options="{'currency_field': 'currency_id'}"/>
+                                                        <field name="solution_proposed"/>
+                                                    </list>
+                                                </field>
+
+                                                <separator string="Competition Details" colspan="2"/>
+                                                <group>
+                                                    <field name="competition"/>
+                                                </group>
+                                                <field name="competition_ids" invisible='not competition' widget="one2many" mode="list">
+                                                    <list>
+                                                        <field name="competitor_product_id"/>
+                                                        <field name="product_category_id"/>
+                                                        <field name="product_quantity"/>
+                                                        <field name="frequency"/>
+                                                        <field name="tentative_price"
+                                                               widget="monetary"
+                                                               options="{'currency_field': 'currency_id'}"/>
+                                                        <field name="tentative_price" widget="monetary"
+                                                               options="{'currency_field': 'currency_id'}"/>
+                                                        <field name="other_details"/>
+                                                    </list>
+                                                </field>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <!-- ========== CROSS REFERENCE TAB ========== -->
+                            <page string="Cross Reference" name="cross_ref_page"
+                                  invisible="not cross_ref">
+                                <field name="cross_ref_ids" widget="one2many" mode="list,kanban"
+                                       readonly="state in ('confirmed','cancelled')">
+                                    <list>
+                                        <field name="brand_id"/>
+                                        <field name="salesperson_id"/>
+                                        <field name="note"/>
+                                    </list>
+                                    <kanban>
+                                        <field name="brand_id"/>
+                                        <field name="salesperson_id"/>
+                                        <field name="note"/>
+                                        <templates>
+                                            <t t-name="card" class="flex-row m-2">
+                                                <main class="ps-2">
+                                                    <div class="mb-2">
+                                                        <div class="d-flex mb-0 h4">
+                                                            <field name="brand_id"/>
+                                                        </div>
+                                                        <div>
+                                                            <field name="salesperson_id"/>
+                                                        </div>
+                                                        <div>
+                                                            <field name="note"/>
+                                                        </div>
+                                                    </div>
+                                                </main>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="brand_id"/>
+                                                    <field name="note"/>
+                                                </group>
+                                                <group>
+                                                    <field name="salesperson_id"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <!-- ========== EXPENSE TAB ========== -->
+                            <page string="Expenses" name="dcr_expense" invisible="not add_expense">
+                                <field name="expense_ids" widget="one2many" context="{'default_dcr_id': id}">
+                                    <list editable="bottom">
+                                        <field name="dcr_id" column_invisible="1"/>
+                                        <field name="product_id"
+                                               context="{
+                                            'default_type': 'service',
+                                            'default_can_be_expensed': 1,
+                                            'list_view_ref': 'hr_expense.product_product_expense_tree_view',
+                                            'form_view_ref': 'hr_expense.product_product_expense_form_view',
+                                        }"
+                                               class="w-100"/>
+                                        <field name="name"/>
+                                        <field name="total_amount_currency" string="Amount"/>
+                                        <field name="tax_ids" widget="many2many_tax_tags"/>
+                                        <field name="payment_mode"/>
+                                        <field name="attachment_ids" widget="many2many_binary" string="Attach Receipt"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <page name="note" string="Note">
+                                <field name="note"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dcr_master_list" model="ir.ui.view">
+        <field name="name">dcr.master.list</field>
+        <field name="model">dcr.master</field>
+        <field name="arch" type="xml">
+            <list string="DCR Cross Reference" default_order="create_date desc, id desc">
+                <field name="name" readonly="1"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <!--                <field name="visit_type_id"/>-->
+                <field name="partner_id"/>
+                <field name="contact_person"/>
+                <field name="date_visit"/>
+                <field name="cross_ref"/>
+                <field name="state"
+                       decoration-success="state == 'confirmed'"
+                       decoration-info="state == 'draft'"
+                       widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_dcr_master_form_filter" model="ir.ui.view">
+        <field name="name">dcr.master.select</field>
+        <field name="model">dcr.master</field>
+        <field name="arch" type="xml">
+            <search string="Search Repair Orders">
+                <filter invisible="1" string="My Activities" name="filter_activities_my"
+                        domain="[('activity_user_id', '=', uid)]"/>
+                <separator invisible="1"/>
+                <filter invisible="1" string="Late Activities" name="activities_overdue"
+                        domain="[('my_activity_date_deadline', '&lt;', 'today')]"
+                        help="Show all records whose next activity date is past"/>
+                <filter invisible="1" string="Today Activities" name="activities_today"
+                        domain="[('my_activity_date_deadline', '=', 'today')]"/>
+                <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="[('my_activity_date_deadline', '&gt;', 'today')]"/>
+                <group>
+                   <filter name="group_by_brand" string="Brand" context="{'group_by': 'user_brand_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--    DCR master kanban view -->
+    <record id="view_dcr_master_kanban" model="ir.ui.view">
+        <field name="name">dcr.master.kanban</field>
+        <field name="model">dcr.master</field>
+        <field name="arch" type="xml">
+            <kanban default_order="create_date desc, id desc">
+                <!-- Fields used in template -->
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="partner_id"/>
+                <field name="date_visit"/>
+                <field name="state"/>
+                <field name="user_brand_id"/>
+
+                <templates>
+                    <div t-name="card" style="background-color:black;"
+                         t-attf-class="oe_kanban_global_click oe_kanban_card p-2 mb-2 border rounded shadow-sm
+                             #{record.state.raw_value == 'draft' and 'bg-light' or ''}
+                             #{record.state.raw_value == 'confirmed' and 'bg-success-subtle' or ''}
+                             #{record.state.raw_value == 'cancelled' and 'bg-danger-subtle' or ''}
+                         ">
+
+                         <t t-if="record.user_brand_id.raw_value">
+                            <div style="
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+                                background: #ff9800;
+                                color: black;
+                                padding: 2px 8px;
+                                font-size: 11px;
+                                font-weight: 600;
+                                border-bottom-right-radius: 6px;
+                                z-index: 10;
+                            ">
+                                <i class="fa fa-tags me-1"/>
+                                <field name="user_brand_id"/>
+                            </div>
+                         </t>
+
+                        <!-- Header -->
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <div>
+                                <strong>
+                                    <field name="user_id"/>
+                                </strong>
+                                <div class="text-muted small">
+                                    <field name="date_visit"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Body -->
+                        <div>
+                            <div>
+                                <i class="fa fa-user" title="Customer"/>
+                                <field name="partner_id"/>
+                            </div>
+                            <div class="small text-muted" style="background-color:#fff3cd;color:#856404;font-weight:bold;padding:2px 4px;border-radius:4px;">
+                                <field name="name"/>
+                            </div>
+                        </div>
+
+                        <!-- Footer: Status -->
+                        <div class="mt-2 text-end">
+                            <t t-if="record.state.raw_value == 'draft'">
+                                <span class="badge bg-secondary">
+                                    <i class="fa fa-pencil" title="Draft"/>
+                                    Draft
+                                </span>
+                            </t>
+                            <t t-if="record.state.raw_value == 'confirmed'">
+                                <span class="badge bg-success">
+                                    <i class="fa fa-check-circle" title="Confirmed"/>
+                                    Confirmed
+                                </span>
+                            </t>
+                            <t t-if="record.state.raw_value == 'cancelled'">
+                                <span class="badge bg-danger">
+                                    <i class="fa fa-times-circle" title="Cancelled"/>
+                                    Cancelled
+                                </span>
+                            </t>
+                        </div>
+                    </div>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_dcr_master" model="ir.actions.act_window">
+        <field name="name">DCR Form</field>
+        <field name="res_model">dcr.master</field>
+        <field name="path">dcr-form</field>
+        <field name="view_mode">kanban,list,form</field>
+<!--        <field name="search_view_id" ref="view_dcr_master_form_filter"/>-->
+    </record>
+
+    <menuitem id="menu_dcr_root" name="DCR"
+              web_icon="ieppl_dcr_master,static/description/icon.png"/>
+
+    <menuitem id="menu_dcr_master" name="DCR Form" parent="menu_dcr_root" action="action_dcr_master"/>
+</odoo>

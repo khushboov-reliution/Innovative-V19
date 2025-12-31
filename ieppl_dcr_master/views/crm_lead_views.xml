@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_view_form" model="ir.ui.view">
+        <field name="name">crm.lead.view.form.inherit.dcr.master</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='internal_notes']/field[@name='description']" position="after">
+                <field name="description_plain" widget="text" invisible="1"/>
+            </xpath>
+            <xpath expr="//h2//div[hasclass('col-auto')][2]" position="after">
+                <div class="col-auto px-4">
+                    <label for="brand_id" class="d-inline-block"/>
+                    <div class="d-flex align-items-baseline">
+                        <field name="brand_id" class="oe_inline o_input_13ch" readonly="0"
+                               domain="[('user_ids', 'in', user_id), ('is_competitor', '=', False)]"/>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='lead_priority']" position="after">
+                <group invisible="type == 'opportunity'">
+                    <field name="referred_id"/>
+                    <field name="dcr_id"/>
+                    <field name="source_id"/>
+                    <field name="campaign_id"/>
+                </group>
+                <group invisible="type == 'opportunity'">
+                    <field name="referred"/>
+                    <field name="medium_id"/>
+                </group>
+            </xpath>
+            <xpath expr="//sheet/group/group[4]/field[@name='tag_ids']" position="after">
+                <field name="dcr_id"/>
+                <field name="source_id"/>
+                <field name="campaign_id"/>
+                <field name="medium_id"/>
+                <field name="referred"/>
+            </xpath>
+            <xpath expr="//page[@name='extra']/group/group[@name='categorization']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group[@name='opportunity_partner']/field[@name='partner_id']" position="before">
+                <field name="partner_name"/>
+                <label for="street_page_lead" string="Address"/>
+                <div class="o_address_format">
+                    <field name="street" id="street_page_lead" placeholder="Street..." class="o_address_street"/>
+                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                    <field name="city" placeholder="City" class="o_address_city"/>
+                    <field name="state_id" class="o_address_state" placeholder="State"/>
+                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                    <field name="country_id" placeholder="Country" class="o_address_country"/>
+                </div>
+            </xpath>
+            <xpath expr="//page[@name='lead']/group/group[1]" position="replace"/>
+            <xpath expr="//page[@name='lead']/group/group[2]" position="replace"/>
+            <page name="extra" position="before">
+                <page name="products" string="Products">
+                    <field name="lead_line_ids" context="{'default_product_brand_id': brand_id}">
+                        <list editable="bottom">
+                            <field name="product_id"
+                                   domain="['|', ('brand_id','=',parent.brand_id), ('brand_id','in', user_brand_ids)]"/>
+                            <field name="product_brand_id" readonly="1"/>
+                            <!--                            <field name="application_type_id"/>-->
+                            <field name="category_id" column_invisible="1"/>
+                            <field name="product_tmpl_id" column_invisible="1"/>
+                            <field name="name" widget="section_and_note_text"/>
+                            <field name="product_qty" string="Quantity"/>
+                            <field name="price_unit" string="Price Unit"/>
+                            <field name="expected_revenue"/>
+                            <field name="prorated_revenue" column_invisible="1"/>
+                        </list>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+    <record id="crm_lead_view_tree_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.view.list.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="before">
+                <field name="brand_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

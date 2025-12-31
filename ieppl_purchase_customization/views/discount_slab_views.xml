@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_discount_slab_tree" model="ir.ui.view">
+        <field name="name">discount.slab.tree</field>
+        <field name="model">discount.slab</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="min_sales_target"/>
+                <field name="discount_percentage"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_discount_slab_form" model="ir.ui.view">
+        <field name="name">discount.slab.form</field>
+        <field name="model">discount.slab</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="min_sales_target"/>
+                        <field name="discount_percentage"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_discount_slab" model="ir.actions.act_window">
+        <field name="name">Discount Slab</field>
+        <field name="res_model">discount.slab</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first record
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_discount_slab_root" name="Discount Slabs" parent="sale.menu_sale_config" sequence="30"/>
+    <menuitem id="menu_discount_slab" name="Discount Slabs" parent="menu_discount_slab_root" action="action_discount_slab"/>
+
+</odoo>

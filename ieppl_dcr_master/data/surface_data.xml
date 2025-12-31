@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Surface Master records -->
+        <record id="surface_dry" model="surface.master">
+            <field name="name">Dry</field>
+        </record>
+        <record id="surface_wet" model="surface.master">
+            <field name="name">Wet</field>
+        </record>
+        <record id="surface_chemical_clean" model="surface.master">
+            <field name="name">Chemical Clean</field>
+        </record>
+        <record id="surface_rough" model="surface.master">
+            <field name="name">Rough</field>
+        </record>
+        <record id="surface_blank" model="surface.master">
+            <field name="name">Blank</field>
+        </record>
+        <record id="surface_clean" model="surface.master">
+            <field name="name">Clean</field>
+        </record>
+        <record id="surface_dirty" model="surface.master">
+            <field name="name">Dirty</field>
+        </record>
+        <record id="surface_sand_blasted" model="surface.master">
+            <field name="name">Sand Blasted</field>
+        </record>
+        <record id="surface_polished" model="surface.master">
+            <field name="name">Polished</field>
+        </record>
+
+    </data>
+</odoo>

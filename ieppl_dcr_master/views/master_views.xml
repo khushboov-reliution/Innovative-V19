@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_machine_master_list" model="ir.ui.view">
+        <field name="name">machine.master.list</field>
+        <field name="model">machine.master</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="machine_model_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_machine_master_form" model="ir.ui.view">
+        <field name="name">machine.master.form</field>
+        <field name="model">machine.master</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="machine_model_ids" widget="one2many">
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="machine_model"/>
+                                        <field name="machine_type"/>
+                                        <field name="machine_series"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_machine_master" model="ir.actions.act_window">
+        <field name="name">Machine Master</field>
+        <field name="res_model">machine.master</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_machine_model_list" model="ir.ui.view">
+        <field name="name">machine.model.list</field>
+        <field name="model">machine.model</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="machine_model"/>
+                <field name="machine_type"/>
+                <field name="machine_series"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_machine_model_form" model="ir.ui.view">
+        <field name="name">machine.model.form</field>
+        <field name="model">machine.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="machine_model"/>
+                            <field name="machine_make_id" widget="many2one"/>
+                        </group>
+                        <group>
+                            <field name="machine_type"/>
+                            <field name="machine_series"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_machine_model" model="ir.actions.act_window">
+        <field name="name">Machine Model</field>
+        <field name="res_model">machine.model</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_operation_master_list" model="ir.ui.view">
+        <field name="name">operation.master.list</field>
+        <field name="model">operation.master</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_operation_master" model="ir.actions.act_window">
+        <field name="name">Operations</field>
+        <field name="res_model">operation.master</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_surface_master_list" model="ir.ui.view">
+        <field name="name">surface.master.list</field>
+        <field name="model">surface.master</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_surface_master" model="ir.actions.act_window">
+        <field name="name">Surface Master</field>
+        <field name="res_model">surface.master</field>
+        <field name="view_mode">list</field>
+    </record>
+
+<!--    <record id="view_coolant_master_list" model="ir.ui.view">-->
+<!--        <field name="name">coolant.master.list</field>-->
+<!--        <field name="model">coolant.master</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <list>-->
+<!--                <field name="coolant_make"/>-->
+<!--                <field name="grade"/>-->
+<!--            </list>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="view_coolant_master_form" model="ir.ui.view">-->
+<!--        <field name="name">coolant.master.form</field>-->
+<!--        <field name="model">coolant.master</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Coolant">-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="coolant_make"/>-->
+<!--                        <field name="grade"/>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="price"/>-->
+<!--                        <field name="consumption"/>-->
+<!--                    </group>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="action_coolant_master" model="ir.actions.act_window">-->
+<!--        <field name="name">Coolant Master</field>-->
+<!--        <field name="res_model">coolant.master</field>-->
+<!--        <field name="view_mode">list,form</field>-->
+<!--    </record>-->
+
+    <record id="view_tool_criteria_list" model="ir.ui.view">
+        <field name="name">tool.criteria.list</field>
+        <field name="model">tool.criteria</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tool_criteria" model="ir.actions.act_window">
+        <field name="name">Tool Criteria</field>
+        <field name="res_model">tool.criteria</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_end_product_category_list" model="ir.ui.view">
+        <field name="name">end.product.category.list</field>
+        <field name="model">end.product.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_end_product_category" model="ir.actions.act_window">
+        <field name="name">End Product Categories</field>
+        <field name="res_model">end.product.category</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_end_product_list" model="ir.ui.view">
+        <field name="name">end.product.list</field>
+        <field name="model">end.product</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="category_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_end_product_form" model="ir.ui.view">
+        <field name="name">end.product.form</field>
+        <field name="model">end.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_end_product" model="ir.actions.act_window">
+        <field name="name">End Products</field>
+        <field name="res_model">end.product</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_assembly_master_list" model="ir.ui.view">
+        <field name="name">assembly.master.list</field>
+        <field name="model">assembly.master</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_assembly_master" model="ir.actions.act_window">
+        <field name="name">Assembly Master</field>
+        <field name="res_model">assembly.master</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_assembly_component_list" model="ir.ui.view">
+        <field name="name">assembly.component.list</field>
+        <field name="model">assembly.component</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_assembly_component_master" model="ir.actions.act_window">
+        <field name="name">Assembly Component</field>
+        <field name="res_model">assembly.component</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_loctite_chemical_details_list" model="ir.ui.view">
+        <field name="name">loctite.chemical.details.list</field>
+        <field name="model">loctite.chemical.details</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="chemical_type"/>
+                <field name="temp_c"/>
+                <field name="concentrate_ppm"/>
+                <field name="ph_range"/>
+                <field name="dissolved_solids"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_loctite_chemical_details_form" model="ir.ui.view">
+        <field name="name">loctite.chemical.details.form</field>
+        <field name="model">loctite.chemical.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="chemical_type"/>
+                        <field name="temp_c"/>
+                        <field name="concentrate_ppm"/>
+                        <field name="ph_range"/>
+                        <field name="dissolved_solids"/>
+                        <field name="application_id" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_loctite_chemical_details" model="ir.actions.act_window">
+        <field name="name">Chemical Details</field>
+        <field name="res_model">loctite.chemical.details</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <record id="view_loctite_equipment_history_list" model="ir.ui.view">
+        <field name="name">loctite.equipment.history.list</field>
+        <field name="model">loctite.equipment.history</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="equipment_name"/>
+                <field name="original_coating"/>
+                <field name="maintenance_interval"/>
+                <field name="repair_cost"/>
+                <field name="substrate_type"/>
+                <field name="structurally_sound"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_loctite_equipment_history_form" model="ir.ui.view">
+        <field name="name">loctite.equipment.history.form</field>
+        <field name="model">loctite.equipment.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="equipment_name"/>
+                        <field name="original_coating"/>
+                        <field name="maintenance_interval"/>
+                        <field name="repair_cost"/>
+                        <field name="substrate_type"/>
+                        <field name="structurally_sound"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_loctite_equipment_history" model="ir.actions.act_window">
+        <field name="name">Equipment History</field>
+        <field name="res_model">loctite.equipment.history</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_solution_product_master_tree" model="ir.ui.view">
+        <field name="name">solution.product.master.list</field>
+        <field name="model">solution.product.master</field>
+        <field name="arch" type="xml">
+            <list string="Solution Products" create="true" edit="true" delete="true">
+                <field name="product_id"/>
+                <field name="product_brand_id"/>
+                <field name="solution_product_quantity"/>
+                <field name="solution_product_uom"/>
+                <field name="solution_product_price"/>
+                <field name="frequency"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_solution_product_master_form" model="ir.ui.view">
+        <field name="name">solution.product.master.form</field>
+        <field name="model">solution.product.master</field>
+        <field name="arch" type="xml">
+            <form string="Solution Product">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="application_id" invisible="1"/>
+                            <field name="dcr_form_id" invisible="1"/>
+                            <field name="product_brand_id"/>
+                            <field name="solution_product_uom"/>
+                        </group>
+                        <group>
+                            <field name="solution_product_quantity"/>
+                            <field name="solution_product_price"/>
+                            <field name="frequency"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="solution_proposed" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_solution_product_master" model="ir.actions.act_window">
+        <field name="name">Solution Products</field>
+        <field name="res_model">solution.product.master</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_masters_root"
+              name="Masters"
+              sequence="10"/>
+
+    <menuitem id="menu_fuchs_master"
+              name="Fuchs"
+              parent="menu_masters_root"
+              sequence="10"/>
+
+    <menuitem id="menu_machine_detail_master"
+              name="Machines"
+              parent="menu_fuchs_master"
+              sequence="10"
+              action="action_machine_master"/>
+
+    <menuitem id="menu_machine_model"
+              name="Machines Model"
+              parent="menu_fuchs_master"
+              action="action_machine_model"/>
+
+    <menuitem id="menu_operation_master"
+              name="Operation Master"
+              parent="menu_fuchs_master"
+              sequence="20"
+              action="action_operation_master"/>
+
+    <menuitem id="menu_surface_master"
+              name="Surface Master"
+              parent="menu_masters_root"
+              sequence="30"
+              action="action_surface_master"/>
+
+    <menuitem id="menu_sandvik_master"
+              name="Sandvik"
+              parent="menu_masters_root"
+              sequence="10"/>
+
+<!--     <menuitem id="menu_coolant_master"-->
+<!--                  name="Coolants"-->
+<!--                  parent="menu_sandvik_master"-->
+<!--                  action="action_coolant_master"/>-->
+
+    <menuitem id="menu_tool_criteria"
+              name="Tool Criteria"
+              parent="menu_sandvik_master"
+              sequence="40"
+              action="action_tool_criteria"/>
+
+    <!-- Main Loctite Menu -->
+    <menuitem id="menu_loctite_master"
+              name="Loctite"
+              parent="menu_masters_root"
+              sequence="10"/>
+
+    <!-- OEM Submenu -->
+    <menuitem id="menu_loctite_oem"
+              name="OEM"
+              parent="menu_loctite_master"
+              sequence="10"/>
+
+    <!-- MRO Submenu -->
+    <menuitem id="menu_loctite_mro"
+              name="MRO"
+              parent="menu_loctite_master"
+              sequence="20"/>
+
+    <!-- OEM Items -->
+    <menuitem id="menu_end_product_category"
+              name="End Product Categories"
+              parent="menu_loctite_oem"
+              sequence="10"
+              action="action_end_product_category"/>
+
+    <menuitem id="menu_end_product"
+              name="End Products"
+              parent="menu_loctite_oem"
+              sequence="20"
+              action="action_end_product"/>
+
+    <menuitem id="menu_assembly_master"
+              name="Assembly"
+              parent="menu_loctite_oem"
+              sequence="30"
+              action="action_assembly_master"/>
+
+    <menuitem id="menu_assembly_component"
+              name="Assembly Component"
+              parent="menu_loctite_oem"
+              sequence="40"
+              action="action_assembly_component_master"/>
+
+    <!-- MRO Items -->
+    <menuitem id="menu_loctite_chemical_details"
+              name="Chemical Details"
+              parent="menu_loctite_mro"
+              action="action_loctite_chemical_details"
+              sequence="10"/>
+
+    <menuitem id="menu_loctite_equipment_history"
+              name="Equipment History"
+              parent="menu_loctite_mro"
+              action="action_loctite_equipment_history"
+              sequence="20"/>
+
+
+</odoo>

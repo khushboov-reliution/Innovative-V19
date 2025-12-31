@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- TREE VIEW FOR TRIAL REPORT -->
+    <record id="view_trial_report_list" model="ir.ui.view">
+        <field name="name">trial.report.list</field>
+        <field name="model">trial.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="brand_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_trial_report_form" model="ir.ui.view">
+        <field name="name">trial.report.form</field>
+        <field name="model">trial.report</field>
+        <field name="arch" type="xml">
+            <form string="Trial Report">
+                <header>
+                    <button name="action_trial_sandvik"
+                        string="Trial Sandvik"
+                        type="object"
+                        class="btn-primary"
+                        invisible="not show_sandvik"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="main">
+                        <group>
+                            <field name="name" readonly="1" invisible="1"/>
+                            <field name="partner_id"/>
+                            <field name="user_ids" widget="many2many_tags"/>
+                            <field name="brand_id"/>
+                        </group>
+                        <group>
+                            <field name="lead_domain" invisible="1"/>
+                            <field name="lead_id" domain="lead_domain"/>
+                            <field name="dcr_domain" invisible="1"/>
+                            <field name="dcr_id" domain="dcr_domain"/>
+                            <field name="app_domain" invisible="1"/>
+                            <label for="application_id" string="Application"/>
+                            <div class="o_row" style="column-gap:10px;">
+                                <div class="o_col">
+                                    <field name="application_id"
+                                           domain="app_domain"
+                                           options="{'no_open': True}"/>
+                                </div>
+                                <div class="o_col">
+                                    <button
+                                        name="action_preview_application"
+                                        type="object"
+                                        string="Preview"
+                                        class="btn-primary"/>
+                                </div>
+                            </div>
+                            <field name="show_sandvik" invisible="1"/>
+                        </group>
+                    </group>
+                    <group invisible="not show_fuchs">
+                        <group>
+                            <field name="machine_model_id"/>
+                            <field name="coolant_id"  domain="[('brand_id', '=', brand_id)]"/>
+                            <field name="r_i_factor"/>
+                            <field name="show_fuchs" invisible="1"/>
+                        </group>
+                        <group name="main_right">
+                            <field name="tank_cap"/>
+                            <field name="tank_cleaned_date"/>
+                            <field name="recom_const"/>
+                        </group>
+                    </group>
+
+                    <group invisible="not show_loctite">
+                        <field name="testing_supervision"/>
+                        <field name="testing_datetime"/>
+                    </group>
+                    <group string="Criteria" invisible="not show_loctite">
+                        <field name="strength"/>
+                        <field name="pressure"/>
+                        <field name="temperature"/>
+                    </group>
+                    <group invisible="not show_loctite">
+                        <field name="test_procedure"/>
+                        <field name="result"/>
+                        <field name="remarks"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Trial Lines" invisible="not show_sandvik">
+                            <field name="line_ids" widget="one2many" mode="list,kanban"
+                                   context="{'form_view_ref': 'ieppl_dcr_master.view_trial_report_line_sandvik_brand_form'}">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="user_id"/>
+                                    <field name="contact_person"/>
+                                    <field name="remarks"/>
+<!--                                    <field name="tool_manufacturer_id"/>-->
+<!--                                    <field name="tool_code"/>-->
+<!--                                    <field name="inserts_in_tool"/>-->
+<!--                                    <field name="tool_cost"/>-->
+<!--                                    <field name="entering_angle"/>-->
+<!--                                    <field name="insert_indexing_time"/>-->
+
+<!--                                    <field name="insert_manufacturer_id"/>-->
+<!--                                    <field name="insert_code"/>-->
+<!--                                    <field name="geometry_grade"/>-->
+<!--                                    <field name="edges_per_insert"/>-->
+<!--                                    <field name="cost_per_insert"/>-->
+
+<!--                                    <field name="cutting_cutter_diameter"/>-->
+<!--                                    <field name="cutting_speed_vc"/>-->
+<!--                                    <field name="spindle_speed_rpm"/>-->
+<!--                                    <field name="feed_per_tooth_fz"/>-->
+<!--                                    <field name="feed_vf"/>-->
+
+<!--                                    <field name="cutting_depth_ap"/>-->
+<!--                                    <field name="working_engage_ae"/>-->
+<!--                                    <field name="length_of_cut"/>-->
+<!--                                    <field name="number_of_passes"/>-->
+
+<!--                                    <field name="time_in_cut_operation"/>-->
+<!--                                    <field name="total_cycle_time"/>-->
+<!--                                    <field name="tool_life"/>-->
+<!--                                    <field name="criteria_for_tool_change"/>-->
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Trial Lines" invisible="not show_fuchs">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <!--                                    <field name="name"/>-->
+                                    <field name="date"/>
+                                    <field name="concentration"/>
+                                    <field name="water_ph"/>
+                                    <field name="ph"/>
+                                    <field name="oil_top_up"/>
+                                    <field name="water_top_up"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record id="action_trial_report" model="ir.actions.act_window">
+        <field name="name">Trial Reports</field>
+        <field name="res_model">trial.report</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_trial_report_root"
+              name="Trial Report"
+              action="action_trial_report"
+              parent="ieppl_dcr_master.menu_dcr_root"
+              sequence="20"/>
+
+</odoo>

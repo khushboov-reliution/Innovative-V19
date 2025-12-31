@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchase_order_form_view_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.form.view</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group/field[@name='partner_id']" position="after">
+                    <field name="contact_person"/>
+                </xpath>
+                 <xpath expr="//sheet/group/group/field[@name='partner_ref']" position="after">
+                    <field name="brand_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//page[@name='products']/field[@name='order_line']/list/field[@name='product_id']"
+                       position="after">
+                    <field name="brand_id" optional="hide"/>
+                </xpath>
+                <xpath expr="//page[@name='products']/field[@name='order_line']/list/field[@name='product_id']"
+                       position="attributes">
+                    <attribute name="domain">brand_domain</attribute>
+                </xpath>
+<!--                <xpath expr="//button[@name='purchase.action_report_purchase_order']" position="attributes">-->
+<!--                    <attribute name="name">ieppl_purchase_customization.action_report_purchase_order_modified</attribute>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+    </data>
+</odoo>

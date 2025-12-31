@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_cutting_manf" model="ir.ui.view">
+        <field name="name">res.partner.form.metal.cutting</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add a special section for metal cutting manufacturer -->
+            <xpath expr="//div[hasclass('o_address_format')]" position="after">
+                <field name="metal_cutting_mfg"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="action_cutting_metal_manufacturer" model="ir.actions.act_window">
+        <field name="name">Cutting Metal Manufacturer</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('metal_cutting_mfg','=',True)]</field>
+        <field name="context">{'default_metal_cutting_mfg': True}</field>
+    </record>
+
+    <menuitem id="menu_cutting_metal_manufacturer"
+              name="Cutting Metal Manufacturer"
+              parent="contacts.menu_contacts"
+              action="action_cutting_metal_manufacturer"
+              sequence="21"/>
+
+</odoo>
