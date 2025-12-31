@@ -11,14 +11,6 @@
                         </tr>
                     </table>
                 </div>
-                <div style="text-align:center; margin-top: 50px; padding-bottom:6px;">
-                    <h3 style="margin:0; font-size:16px; font-weight:bold; text-transform:uppercase;">
-                        <t t-if="doc.env.context.get('proforma')">PRO-FORMA Invoice</t>
-                        <t t-else="">
-                            QUOTATION
-                        </t>
-                    </h3>
-                </div>
             </div>
         </t>
     </template>
