@@ -225,44 +225,44 @@
                                 <!-- Left empty space -->
 <!--                                If added bank details beside of grand total used below code-->
                                 <td style="width:60%; border-top:2px solid #000;border-bottom:2px solid #000;">
-<!--                                    <table style="width:100%; border:1px #fff; font-size:13px;">-->
-<!--                                        <tr style="border-bottom:2px solid #000;">-->
-<!--                                            <td style="text-align:left;font-size:15px;"><strong>Bank Details :-</strong></td>-->
-<!--                                            <td style="text-align:left;"> </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td style="width:30%;"><strong>BANK NAME </strong></td>-->
-<!--                                            <td style="text-align:left;width:30%;">-->
-<!--                                              <t t-if="doc.company_id.bank_ids">:-->
-<!--                                                <t t-esc="doc.company_id.bank_id.bank_name"/>-->
-<!--                                             </t>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td><strong>A/C NO. </strong></td>-->
-<!--                                            <td style="text-align:left;">:-->
-<!--                                                <t t-out="doc.company_id.bank_id.acc_number"/>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td><strong>ACCOUNT HOLDER NAME </strong></td>-->
-<!--                                            <td style="text-align:left;">:-->
-<!--                                                 <t t-out="doc.company_id.bank_id.partner_id.name"/>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td><strong>IFSC CODE </strong></td>-->
-<!--                                            <td style="text-align:left;">:-->
-<!--                                                <t t-out="doc.company_id.bank_id.bank_id.ifsc_code"/>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td><strong>MICR NO. </strong></td>-->
-<!--                                            <td style="text-align:left;">:-->
-<!--                                                <t t-out="doc.company_id.bank_id.bank_id.micr_no"/>-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                    </table>-->
+                                    <table style="width:100%; border:1px #fff; font-size:13px;">
+                                        <tr style="border-bottom:2px solid #000;">
+                                            <td style="text-align:left;font-size:15px;"><strong>Bank Details :-</strong></td>
+                                            <td style="text-align:left;"> </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:30%;"><strong>BANK NAME </strong></td>
+                                            <td style="text-align:left;width:30%;">
+                                              <t t-if="doc.company_id.bank_ids">:
+                                                <t t-esc="doc.company_id.bank_id.bank_name"/>
+                                             </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>A/C NO. </strong></td>
+                                            <td style="text-align:left;">:
+                                                <t t-out="doc.company_id.bank_id.acc_number"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ACCOUNT HOLDER NAME </strong></td>
+                                            <td style="text-align:left;">:
+                                                 <t t-out="doc.company_id.bank_id.partner_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>IFSC CODE </strong></td>
+                                            <td style="text-align:left;">:
+                                                <t t-out="doc.company_id.bank_id.bank_id.ifsc_code"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>MICR NO. </strong></td>
+                                            <td style="text-align:left;">:
+                                                <t t-out="doc.company_id.bank_id.bank_id.micr_no"/>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </td>
                                 <!-- Summary section -->
                                 <td style="width:40%; padding:5px; border-left:2px solid #000; border-top:2px solid #000; border-bottom:2px solid #000;">
