@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_sale_order_modified">
+        <t t-call="web.basic_layout">
+            <div t-foreach="docs" t-as="doc">
+                <div class="header">
+                    <table>
+                        <tr>
+                            <img t-if="doc.company_id.header" t-att-src="image_data_uri(doc.company_id.header)"
+                                 width="100%" alt="Header"/>
+                        </tr>
+                    </table>
+                </div>
+                <div style="text-align:center; margin-top: 50px; padding-bottom:6px;">
+                    <h3 style="margin:0; font-size:16px; font-weight:bold; text-transform:uppercase;">
+                        <t t-if="doc.env.context.get('proforma')">PRO-FORMA Invoice</t>
+                        <t t-else="">
+                            QUOTATION
+                        </t>
+                    </h3>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
