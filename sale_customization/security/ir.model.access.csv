@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_packing_details,access.packing.details,model_packing_details,,1,1,1,1
+access_insurance_details,access.insurance.details,model_insurance_details,,1,1,1,1
+access_dispatch_details,access.dispatch.details,model_dispatch_details,,1,1,1,1
+access_picking_policy,access.picking.policy,model_picking_policy,,1,1,1,1

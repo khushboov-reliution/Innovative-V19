@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_view_form" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.innovative.sale</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='sale.action_report_saleorder']" position="attributes">
+                <attribute name="name">sale_customization.action_report_sale_order_modified</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//list//field[@name='product_template_id']" position="before">
+                <field name="brand_domain" column_invisible="True"/>
+                <field name="brand_id" optional="hide"/>
+            </xpath>
+             <xpath expr="//field[@name='order_line']//list//field[@name='product_template_id']" position="attributes">
+                <attribute name="domain">brand_domain</attribute>
+            </xpath>
+
+             <xpath expr="//field[@name='order_line']//list//field[@name='product_id']" position="attributes">
+                <attribute name="domain">[('brand_id', '=', brand_id)]</attribute>
+             </xpath>
+
+             <xpath expr="//field[@name='validity_date']" position="before">
+                <field name="valid_upto"/>
+             </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="brand_id" readonly="state in ['cancel', 'sale']"/>
+            </xpath>
+
+            <xpath expr="//page[@name='other_information']//field[@name='user_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='other_information']//field[@name='client_order_ref']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+               <field name="client_order_ref" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="user_id" widget="many2one_avatar_user"/>
+<!--                <field name="enquiry_date" options="{'datepicker': {'maxDate': 'now'}}"/>-->
+                <field name="enquiry_date"/>
+                <field name="enquiry_number"/>
+            </xpath>
+
+            <!-- Add Last Sold Price column in order lines -->
+            <xpath expr="//field[@name='order_line']//list//field[@name='product_template_id']" position="after">
+                <field name="last_sold_price" readonly="1" column_invisible="1"/>
+            </xpath>
+
+            <xpath expr="//group[@name='partner_details']/field[@name='partner_id']" position="after">
+                <field name="contact_person" readonly="state in ['cancel', 'sale']"/>
+            </xpath>
+
+             <xpath expr="//field[@name='client_order_ref']" position="after">
+                <label for="commitment_date" string="Delivery Date"/>
+                <div name="commitment_date_div" class="o_row" style="column-gap: 10px;">
+                    <div class="o_col">
+                        <field name="commitment_date"/>
+                    </div>
+                    <div class="o_col">
+                        <span class="text-muted">Expected: <field name="expected_date" class="oe_inline"/></span>
+                    </div>
+                </div>
+             </xpath>
+            <xpath expr="//page[@name='other_information']/group[1]" position="before">
+                <group string="Special Terms and Condition">
+                    <field name="packing_id"/>
+                    <field name="insurance_id"/>
+                    <field name="dispatch_through_id"/>
+                    <field name="picking_policy_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_form_hide_fields" model="ir.ui.view">
+        <field name="name">sale.order.form.hide.fields</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+        <field name="arch" type="xml">
+           <xpath expr="//label[@for='commitment_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+           </xpath>
+           <xpath expr="//field[@name='commitment_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+           </xpath>
+           <xpath expr="//span[field[@name='expected_date']]" position="attributes">
+                <attribute name="invisible">1</attribute>
+           </xpath>
+            <xpath expr="//field[@name='effective_date']" position="attributes">
+              <attribute name="invisible">1</attribute>
+           </xpath>
+           <xpath expr="//field[@name='delivery_status']" position="attributes">
+              <attribute name="invisible">1</attribute>
+           </xpath>
+            <xpath expr="//field[@name='picking_policy']" position="attributes">
+              <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='incoterm_location']" position="after">
+              <field name="effective_date" invisible="not effective_date"/>
+              <field name="delivery_status" invisible="state != 'sale'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_search_inherit_brand_groupby" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.brand.groupby</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <group>
+                <filter name="group_by_brand" string="Brand" context="{'group_by': 'brand_id'}"/>
+            </group>
+        </field>
+    </record>
+
+</odoo>

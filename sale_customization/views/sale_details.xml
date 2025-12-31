@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="packing_details_view_list" model="ir.ui.view">
+            <field name="name">packing.details.list</field>
+            <field name="model">packing.details</field>
+            <field name="arch" type="xml">
+                <list string="Packing Details">
+                    <field name="packing"/>
+                </list>
+            </field>
+        </record>
+        <record id="packing_details_view_form" model="ir.ui.view">
+            <field name="name">packing.details.form</field>
+            <field name="model">packing.details</field>
+            <field name="arch" type="xml">
+                <form string="Packing Details">
+                    <sheet>
+                        <group>
+                            <field name="packing"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="insurance_details_view_list" model="ir.ui.view">
+            <field name="name">insurance.details.list</field>
+            <field name="model">insurance.details</field>
+            <field name="arch" type="xml">
+                <list string="Insurance Details">
+                    <field name="insurance"/>
+                </list>
+            </field>
+        </record>
+        <record id="insurance_details_view_form" model="ir.ui.view">
+            <field name="name">insurance.details.form</field>
+            <field name="model">insurance.details</field>
+            <field name="arch" type="xml">
+                <form string="Insurance Details">
+                    <sheet>
+                        <group>
+                            <field name="insurance"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="dispatch_details_view_list" model="ir.ui.view">
+            <field name="name">dispatch.details.list</field>
+            <field name="model">dispatch.details</field>
+            <field name="arch" type="xml">
+                <list string="Dispatch Details">
+                    <field name="dispatch_through"/>
+                </list>
+            </field>
+        </record>
+        <record id="dispatch_details_view_form" model="ir.ui.view">
+            <field name="name">dispatch.details.form</field>
+            <field name="model">dispatch.details</field>
+            <field name="arch" type="xml">
+                <form string="Dispatch Details">
+                    <sheet>
+                        <group>
+                            <field name="dispatch_through"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_packing_details" model="ir.actions.act_window">
+            <field name="name">Packing Details</field>
+            <field name="res_model">packing.details</field>
+            <field name="view_mode">list,form</field>
+        </record>
+         <record id="action_insurance_details" model="ir.actions.act_window">
+            <field name="name">Insurance Details</field>
+            <field name="res_model">insurance.details</field>
+            <field name="view_mode">list,form</field>
+        </record>
+         <record id="action_dispatch_details" model="ir.actions.act_window">
+            <field name="name">Dispatch Details</field>
+            <field name="res_model">dispatch.details</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_picking_policy" model="ir.actions.act_window">
+            <field name="name">Picking Policy</field>
+            <field name="res_model">picking.policy</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

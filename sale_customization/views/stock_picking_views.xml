@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form_inherit_sale_customization" model="ir.ui.view">
+        <field name="name">stock.picking.form.sale_customization</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group/group/field[@name='partner_id']" position="after">
+                <field name="invoice_id" invisible="1"/>
+            </xpath>
+            <xpath expr="//sheet/div/button[@name='action_detailed_operations']" position="after">
+                <button name="invoice_button" type="object" string="Invoice" class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        invisible="state in ('draft', 'waiting','assigned') or picking_type_code == 'incoming'"/>
+            </xpath>
+            <xpath expr="//field[@name='move_ids']/list/field[@name='product_uom_qty']" position="after">
+                <field name="actual_demand_qty" column_invisible="parent.picking_type_code != 'outgoing'"/>
+                <field name="actual_demand_remark" column_invisible="parent.picking_type_code != 'outgoing'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

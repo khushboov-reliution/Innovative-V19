@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="ieepl_sale_custom_report_saleorder_document" inherit_id="sale.report_saleorder_document">
+
+        <xpath expr="//div[@t-field='doc.partner_id']" position="after">
+            <div t-if="doc.contact_person" class="row">
+                <div class="col-12">
+                    <div style="margin-top:10px;">
+                        <strong>Kind Attn:</strong>
+                        <span t-if="doc.contact_person">
+                            <t t-esc="doc.contact_person.name"/>
+                        </span>
+                    </div>
+                    <div style="margin-top:5px;">
+                        <strong>Mob :</strong>
+                        <span t-field="doc.contact_person.phone"/>
+                    </div>
+                    <div style="margin-top:5px;">
+                        <strong>E-Mail :</strong>
+                        <span t-field="doc.contact_person.email"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+
+        <div name="so_total_summary" position="after">
+            <div class="row mt-5"
+                 style="border:1px solid black; padding-left:5px; font-size:15px;padding:8px 10px;page-break-inside:avoid;">
+                <div class="col-12" style="font-weight:bold;">
+                    <strong>Terms and Condition :-</strong>
+                </div>
+            </div>
+
+            <div class="row" style="border: 1px solid black; padding:8px 10px;page-break-inside:avoid;">
+                <div class="col-12" style="padding-left:5px;">
+                    <div style="margin-top:5px;">
+                        <span style="font-weight:bold;">PACKING &amp; FORWARDING:</span>
+                        <span>NA</span>
+                    </div>
+                    <div style="margin-top:5px;">
+                        <span style="font-weight:bold;">INSURANCE:</span>
+                        Insurance is within your scope unless advised by you. Our responsibility for the goods to be
+                        supplied ceases the upon the goods leaving our premises.
+                    </div>
+                    <div style="margin-top:5px;">
+                        <span style="font-weight:bold;">DELIVERY :</span>
+                        <t t-esc="doc.carrier_id.name"/>
+                    </div>
+                    <div style="margin-top:5px;">
+                        <span style="font-weight:bold;">PAYMENT :</span>
+                        <span>
+                            <t t-esc="doc.payment_term_id.name or '--'"/>
+                        </span>
+                    </div>
+                    <div style="font-weight:bold; margin-top:5px;">
+                        <span>DELIVERY :</span>
+                        <t t-out="dict(doc._fields['picking_policy'].selection).get(doc.picking_policy)"/>
+                    </div>
+                    <div style="font-weight:bold; margin-top:5px;">
+                        <span>VALIDITY:</span>
+                        <span>
+                            <t t-out="dict(doc._fields['expiration_term'].selection).get(doc.expiration_term)"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <xpath expr="//span[@t-field='doc.note']/parent::div" position="replace">
+            <div style="page-break-before: always;">
+                <span t-field="doc.note"
+                      t-attf-style="#{'text-align:justify;text-justify:inter-word;' if doc.company_id.terms_type != 'html' else ''}"
+                      name="order_note"/>
+            </div>
+        </xpath>
+                                    <div class="col-12">
+                                <div style="padding-left:5px;margin-top:8px;border-bottom:2px solid black;">
+                                    <strong>Special Terms and Condition :-</strong>
+                                </div>
+                                <div style="padding-left:5px;margin-top:5px;">
+                                    <span style="font-weight:bold;">PACKING &amp; FORWARDING:</span>
+                                    <span>
+<!--                                        <t t-out="doc.packing"/>-->
+                                    </span>
+                                </div>
+                                <div style="padding-left:5px;margin-top:5px;">
+                                    <span style="font-weight:bold;">INSURANCE:</span>
+                                    <span>
+                                        <t t-out="doc.insurance"/>
+                                    </span>
+                                </div>
+                                <div style="padding-left:5px;margin-top:5px;">
+                                    <span style="font-weight:bold;">DISPATCH THROUGH :</span>
+                                    <!--                            <t t-esc="doc.carrier_id.name"/>-->
+                                </div>
+                                <div style="padding-left:5px;margin-top:5px;">
+                                    <span style="font-weight:bold;">PAYMENT :</span>
+                                    <span>
+                                        <t t-esc="doc.payment_term_id.name or '--'"/>
+                                    </span>
+                                </div>
+                                <div style="padding-left:5px;font-weight:bold; margin-top:5px;">
+                                    <span>DELIVERY :</span>
+                                    <t t-out="dict(doc._fields['picking_policy'].selection).get(doc.picking_policy)"/>
+                                </div>
+                                <div style="padding-left:5px;font-weight:bold; margin-top:5px;">
+                                    <span>VALIDITY:</span>
+                                    <span>
+                                        <t t-out="dict(doc._fields['expiration_term'].selection).get(doc.expiration_term)"/>
+                                    </span>
+                                </div>
+                            </div>
+
+
+    </template>
+
+</odoo>
